@@ -16,6 +16,12 @@
 
 ## Getting Started
 
+### Proyect Description
+
+This project is a simple backend for an event management system. 
+It uses Express.js for the backend and MongoDB for the database. 
+The project includes a TypeScript interface for the database and a Helmet middleware for security purposes.
+
 ### Prerequisites
 
 - Node.js
