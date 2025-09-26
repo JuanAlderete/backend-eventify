@@ -5,6 +5,11 @@ const validateDate = (date: Date) => {
   return date.getTime() > today.getTime();
 };
 
+// Validar que la capacidad del evento no supere el maximo permitido(capacity)
+const validateAttendeesMax = (attendees: string[], capacity: number) => {
+  return attendees.length <= capacity;
+};
+
 const eventsSchema = new mongoose.Schema({
   organizerId: {
     type: mongoose.Schema.Types.ObjectId,
@@ -44,12 +49,18 @@ const eventsSchema = new mongoose.Schema({
     default: 1,
     min: 1,
   },
-  attendees:{
-    type: Array<mongoose.Schema.Types.ObjectId>,
+  attendees: {
+    type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Users" }],
     ref: "Users",
     required: true,
-  }
+    default: [],
+    validate: [validateAttendeesMax, "Capacity exceded"],
+  },
 });
+
+eventsSchema.methods.hasAvailableSpots = function () {
+  return this.capacity - this.attendees.length > 0;
+};
 
 const Events = mongoose.model("Events", eventsSchema);
 export default Events;
