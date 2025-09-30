@@ -1,26 +1,22 @@
-import { Document } from "mongoose";
+import { Document, Model, Schema } from "mongoose";
 
-export interface User {
-  id: string;
+export interface IUser extends Document {
+  id: Schema.Types.ObjectId;
   name: string;
   email: string;
   password: string;
   created_at: Date;
   updated_at: Date;
   active: boolean;
+  comparePassword(userPassword: string): Promise<boolean>;
 }
 
 export interface UserResponse {
   status: number;
   message: string;
-  data: User;
+  data: IUser;
 }
 
-interface IUser extends Document {
-  name: string;
-  email: string;
-  password: string;
-  created_at: Date;
-  updated_at: Date;
-  active: boolean;
+export interface IUserModel extends Model<IUser> {
+  login(email: string, password: string): Promise<IUser>;
 }

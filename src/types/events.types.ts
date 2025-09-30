@@ -1,32 +1,26 @@
-import { Document } from "mongoose";
+import { Document, Schema } from "mongoose";
 
-export interface Event {
-  id: string;
-  organizerId: string;
+export interface IEvent extends Document {
+  id: Schema.Types.ObjectId;
+  organizerId: Schema.Types.ObjectId;
   title: string;
   description: string;
   date: Date;
   time: string;
   location: string;
-  imageUrl: string;
+  imageUrl?: string;
   capacity: number;
-  attendees: string[];
+  attendees: IAttendee[];
+  hasAvailableSpots: () => boolean;
 }
 
 export interface EventResponse {
   status: number;
   message: string;
-  data: Event;
+  data: IEvent;
 }
 
-interface IEvent extends Document {
-  organizerId: string;
-  title: string;
-  description: string;
-  date: Date;
-  time: string;
-  location: string;
-  imageUrl: string;
-  capacity: number;
-  attendees: string[];
+export interface IAttendee {
+  userId: Schema.Types.ObjectId;
+  registered_at?: Date;
 }

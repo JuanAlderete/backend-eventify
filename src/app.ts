@@ -4,8 +4,10 @@ import express from "express";
 import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
-import errorHandler from "./middleware/errorHandler";
+import errorHandler from "./middleware/errorHandler.middleware";
 import { connectDB } from "./config/database";
+import authRoutes from "./routes/auth.routes";
+import eventRoutes from "./routes/events.routes";
 const app = express();
 
 // Access environment variables
@@ -62,6 +64,9 @@ app.get("/api/health", (req, res) => {
     timestamp: new Date().toISOString(),
   });
 });
+
+app.use("/api/auth", authRoutes);
+app.use("/api/events", eventRoutes);
 
 app.use(errorHandler);
 
