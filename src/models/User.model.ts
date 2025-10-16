@@ -71,7 +71,10 @@ usersSchema.statics.login = async function (
   const isMatch = await user.comparePassword(password);
   if (!isMatch) throw new AppError(401, "Invalid credentials");
 
-  return user;
+  const userObj = user.toObject();
+  delete userObj.password;
+
+  return userObj;
 };
 
 const Users = mongoose.model<IUser, IUserModel>("Users", usersSchema);

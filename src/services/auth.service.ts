@@ -1,3 +1,4 @@
+import { log } from "console";
 import User from "../models/User.model";
 import AppError from "../utils/appError.utils";
 import { generateToken } from "../utils/jwt.utils";
@@ -9,7 +10,8 @@ class AuthService {
       if (!user) {
         throw new AppError(401, "Invalid credentials");
       }
-      const token = generateToken(user.id);
+      const userId = user._id;
+      const token = generateToken(userId);
       if (!token) {
         throw new Error("Token generation failed");
       }

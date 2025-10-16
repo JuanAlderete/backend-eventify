@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
-import { verifyToken } from "../utils/jwt.utils";
+import { JwtPayload, verifyToken } from "../utils/jwt.utils";
 
-function authMiddleware(req: Request, res: Response, next: NextFunction) {
+async function authMiddleware(req: Request, res: Response, next: NextFunction) {
   const token = req.headers.authorization;
 
   if (!token || !token.startsWith("Bearer ")) {
@@ -11,13 +11,14 @@ function authMiddleware(req: Request, res: Response, next: NextFunction) {
   }
 
   try {
-    const decoded = verifyToken(token);
+    const cleanToken = token.startsWith("Bearer ")
+      ? token.slice(7).trim()
+      : token;
+    const decoded = (await verifyToken(cleanToken)) as JwtPayload["id"];
     if (!decoded) {
-      return res.status(401).json({
-        status: 401,
-        message: "Invalid token",
-      });
+      return res.status(401).json({ status: 401, message: "Invalid token" });
     }
+    req.user = decoded;
     next();
   } catch (error) {
     return res.status(403).json({

@@ -22,5 +22,19 @@ export interface EventResponse {
 
 export interface IAttendee {
   userId: Schema.Types.ObjectId;
+  name: string;
+  email: string;
   registered_at?: Date;
+}
+
+export interface IEventQueryParams {
+  page?: string;
+  limit?: string;
+  category?: string;
+  location?: string;
+  dateFrom?: string;
+  dateTo?: string;
+  search?: string;
+  sortBy?: string;
+  order?: "asc" | "desc";
 }
