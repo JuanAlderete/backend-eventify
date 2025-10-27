@@ -19,7 +19,7 @@ class EventController {
 
   static async getEvent(req: Request, res: Response, next: NextFunction) {
     try {
-      const { eventId } = req.params;
+      const { id: eventId } = req.params;
       if (!eventId) {
         return next(new AppError(400, "Event id is required 4"));
       }
@@ -104,7 +104,7 @@ class EventController {
 
   static async deleteEvent(req: Request, res: Response, next: NextFunction) {
     try {
-      const { eventId } = req.params;
+      const { id: eventId } = req.params;
       if (!eventId) {
         return next(new AppError(400, "Event id is required 3"));
       }
@@ -127,7 +127,7 @@ class EventController {
 
   static async attendEvent(req: Request, res: Response, next: NextFunction) {
     try {
-      const { eventId } = req.params;
+      const { id: eventId } = req.params;
       if (!eventId) return next(new AppError(400, "Event id is required 1"));
       if (!mongoose.Types.ObjectId.isValid(eventId)) {
         return next(new AppError(400, "Invalid event ID format"));
@@ -148,7 +148,7 @@ class EventController {
 
   static async unattendEvent(req: Request, res: Response, next: NextFunction) {
     try {
-      const { eventId } = req.params;
+      const { id: eventId } = req.params;
       if (!eventId) return next(new AppError(400, "Event id is required 2"));
       if (!mongoose.Types.ObjectId.isValid(eventId)) {
         return next(new AppError(400, "Invalid event ID format"));

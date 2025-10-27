@@ -86,7 +86,7 @@ class EventService {
     if (event.date && new Date(event.date).getTime() < Date.now()) {
       throw new AppError(400, "Event date cannot be in the past");
     }
-    const allowedFields = ["title", "description", "date", "capacity"];
+    const allowedFields = ["title", "description", "date", "capacity", "location", "time", "imageUrl"];
     for (const field of allowedFields) {
       if (event[field as keyof IEvent]) {
         eventToUpdate.set(field, event[field as keyof IEvent]);
